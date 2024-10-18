@@ -34,6 +34,9 @@ export default {
         DEFAULT: '#FF4081',
         light: '#FFE4FF',
       },
+      white: '#fefefe',
+      black: '#111',
+      gray: '#DADADA',
     },
     container: {
       center: true,

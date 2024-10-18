@@ -34,12 +34,12 @@ export const getUser = async (request: Request) => {
   return session?.user.user_metadata || null;
 };
 
-export const isUserLoggedIn = async (request: Request) => {
+export const isAuthenticated = async (request: Request) => {
   const { supabase } = createSupabaseServerClient(request);
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  return !!user;
+  return !!user?.id;
 };

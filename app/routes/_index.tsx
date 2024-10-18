@@ -1,8 +1,10 @@
 import { json, redirect } from '@remix-run/node';
 import type { MetaFunction, ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
-import { getUser, signInWithGoogle } from '~/supabase';
-import LoginForm from '~/components/Login';
 import { useLoaderData } from '@remix-run/react';
+import { getUser, signInWithGoogle } from '~/supabase';
+import UserMetadataProps from '~/types/userMetadata';
+import Dashboard from './_dashboard';
+import LoginForm from '~/components/Login';
 
 export const meta: MetaFunction = () => {
   return [
@@ -25,8 +27,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export default function Index() {
-  const userData = useLoaderData();
-  console.log('userdata', userData);
+  const userData: UserMetadataProps = useLoaderData();
 
-  return <LoginForm />;
+  if (!userData) {
+    return <LoginForm />;
+  }
+
+  return <Dashboard user={userData} />;
 }
