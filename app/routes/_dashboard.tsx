@@ -1,4 +1,4 @@
-import { Coins, DotsNine, File, GearSix, HandCoins, House, Rabbit } from '@phosphor-icons/react';
+import { Briefcase, Coins, File, GearSix, HandCoins, House, Rabbit } from '@phosphor-icons/react';
 import UserMetadataProps from '~/types/userMetadata';
 
 interface dashboardProps {
@@ -36,7 +36,7 @@ const menus = [
 
 const Profile = ({ fullName, email, imageURL }: ProfileProps) => {
   return (
-    <div className="hover:bg-white flex w-full items-center justify-start gap-x-2 rounded-lg px-2 py-5">
+    <div className="flex w-full items-center justify-start gap-x-2 rounded-lg px-2 py-5 hover:bg-white">
       <img referrerPolicy="no-referrer" className="size-8 rounded-full" src={imageURL} alt={fullName} />
       <div className="w-[85%]">
         <strong className="block text-sm font-semibold">{fullName}</strong>
@@ -53,7 +53,7 @@ const Sidebar = ({ full_name, email, avatar_url }: UserMetadataProps) => {
         <Rabbit weight="duotone" size={34} />
         <span className="text-3xl font-bold leading-loose">Trakr.</span>
       </div>
-      <hr className="border-gray mb-1.5" />
+      <hr className="mb-1.5 border-gray" />
       <nav>
         <ul>
           {menus.map((menu) => (
@@ -73,8 +73,12 @@ const Sidebar = ({ full_name, email, avatar_url }: UserMetadataProps) => {
           <GearSix size={24} />
           Settings
         </div>
+        <div className="flex items-center gap-x-2 rounded-lg px-4 py-3 hover:bg-[#fff]">
+          <Briefcase size={24} />
+          Workspace
+        </div>
       </nav>
-      <hr className="border-gray my-1.5 border-t" />
+      <hr className="my-1.5 border-t border-gray" />
       <Profile fullName={full_name} email={email} imageURL={avatar_url} />
     </aside>
   );
