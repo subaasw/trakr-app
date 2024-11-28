@@ -1,5 +1,6 @@
 import { redirect, type LoaderFunctionArgs } from '@remix-run/node';
 import { createSupabaseServerClient } from '~/supabase/auth.server';
+import { checkNewUser } from '~/supabase';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const requestUrl = new URL(request.url);
@@ -9,9 +10,18 @@ export async function loader({ request }: LoaderFunctionArgs) {
   if (code) {
     const { supabase, headers } = createSupabaseServerClient(request);
 
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.exchangeCodeForSession(code);
 
-    if (!error) {
+    if (!error && user?.id) {
+      const isNewUser = await checkNewUser(request, user.id);
+
+      if (isNewUser) {
+        return redirect('/workspace/create', { headers });
+      }
+
       return redirect(next, { headers });
     }
   }

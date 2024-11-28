@@ -1,6 +1,6 @@
+import { useLoaderData } from '@remix-run/react';
 import { json, redirect } from '@remix-run/node';
 import type { MetaFunction, ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
 import { getUser, signInWithGoogle } from '~/supabase';
 import UserMetadataProps from '~/types/userMetadata';
 import Dashboard from './_dashboard';
