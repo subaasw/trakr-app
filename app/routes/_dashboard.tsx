@@ -1,3 +1,4 @@
+import { Form, Link } from '@remix-run/react';
 import { Briefcase, Coins, File, GearSix, HandCoins, House, Rabbit } from '@phosphor-icons/react';
 import UserMetadataProps from '~/types/userMetadata';
 
@@ -15,22 +16,22 @@ const menus = [
   {
     icon: House,
     label: 'Dashboard',
-    link: '#',
+    link: '/dashboard',
   },
   {
     icon: Coins,
     label: 'Expenses',
-    link: '#',
+    link: '/create-expenses',
   },
   {
     icon: HandCoins,
     label: 'Records',
-    link: '#',
+    link: '/records',
   },
   {
     icon: File,
     label: 'Reports',
-    link: '#',
+    link: '/reports',
   },
 ];
 
@@ -55,17 +56,16 @@ const Sidebar = ({ full_name, email, avatar_url }: UserMetadataProps) => {
       </div>
       <hr className="mb-1.5 border-gray" />
       <nav>
-        <ul>
-          {menus.map((menu) => (
-            <li
-              className="flex items-center gap-x-2 rounded-lg px-4 py-3 hover:bg-[#fff]"
-              key={'Menu-Item-' + menu.label}
-            >
-              <menu.icon size={24} />
-              {menu.label}
-            </li>
-          ))}
-        </ul>
+        {menus.map((menu) => (
+          <Link
+            to={menu.link}
+            className="flex items-center gap-x-2 rounded-lg px-4 py-3 hover:bg-[#fff]"
+            key={'Menu-Item-' + menu.label}
+          >
+            <menu.icon size={24} />
+            {menu.label}
+          </Link>
+        ))}
       </nav>
 
       <nav className="mt-auto block">
@@ -89,8 +89,8 @@ export default function Dashboard({ user }: dashboardProps) {
     <div className="flex">
       <Sidebar full_name={user.full_name} email={user.email} avatar_url={user.avatar_url} />
       <div className="h-[400vh] w-full bg-[#fff] p-4">
-        <header>
-          <h1 className="text-xl font-semibold">Dashboard</h1>
+        <header className="mb-6">
+          <h1 className="text-3xl font-semibold">Dashboard</h1>
         </header>
       </div>
     </div>
