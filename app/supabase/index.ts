@@ -1,4 +1,4 @@
-import { json, redirect } from '@remix-run/node';
+import { redirect } from '@remix-run/node';
 import { createSupabaseServerClient } from './auth.server';
 
 enum USER_ROLE {
@@ -43,7 +43,7 @@ export const signOut = async (request: Request, successRedirectPath: string = '/
     throw redirect(successRedirectPath, { headers });
   }
 
-  return json({ error: error.message });
+  return Response.json({ error: error.message });
 };
 
 export const getUser = async (request: Request) => {
@@ -130,7 +130,6 @@ export const getWorkspaceInfo = async (request: Request) => {
 
     //@ts-ignore
     const memberIds = data?.workspace?.members;
-
     const { data: members } = await supabase.from('usermeta').select('user_id, name').in('user_id', memberIds);
 
     return {
@@ -214,11 +213,7 @@ export const workspaceInviteMember = async (request: Request, email: string) => 
     //@ts-ignore
     const wsId = data?.workspace?.workspace_id;
 
-    const {
-      data: updatedData,
-      error: workspaceInvitationError,
-      ...rest
-    } = await supabase
+    const { data: updatedData, error: workspaceInvitationError } = await supabase
       .from('usermeta')
       .update({
         workspace_id: wsId,
@@ -228,8 +223,6 @@ export const workspaceInviteMember = async (request: Request, email: string) => 
       .eq('user_id', invitedUser.user_id)
       .select();
 
-    console.log('updated data', wsId, invitedUser.user_id, updatedData, rest);
-
     const { data: workspace } = await supabase
       .from('workspace')
       .select('members')
@@ -237,8 +230,6 @@ export const workspaceInviteMember = async (request: Request, email: string) => 
       .maybeSingle();
 
     const workspaceMembers = workspace?.members || [];
-
-    console.log('workspaceMembers', workspaceMembers);
 
     if (Array.isArray(workspaceMembers)) {
       const { error: workspaceMemberUpdateError, ...rest } = await supabase

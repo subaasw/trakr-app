@@ -1,5 +1,5 @@
 import { useLoaderData } from '@remix-run/react';
-import { json, redirect } from '@remix-run/node';
+import { redirect } from '@remix-run/node';
 import type { MetaFunction, ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 import { getUser, signInWithGoogle } from '~/supabase';
 import UserMetadataProps from '~/types/userMetadata';
@@ -23,7 +23,8 @@ export async function action({ request }: ActionFunctionArgs) {
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const user = await getUser(request);
-  return json(user);
+
+  return Response.json(user);
 }
 
 export default function Index() {
